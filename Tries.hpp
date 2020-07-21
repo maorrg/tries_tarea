@@ -36,6 +36,8 @@ void Insert(struct Node *raiz, string key)
     } 
     root->isEnd = true; 
 } 
+
+
   
 bool Search(struct Node *raiz, string key) 
 { 
@@ -55,4 +57,35 @@ bool Search(struct Node *raiz, string key)
     cout << "La palabra " << key << " SI esta en el texto.\n\n";
     return (root != NULL && root->isEnd); 
 }
+
+bool isEmpty(Node* root){
+   for (int i = 0; i < ALPHABET_NUM_CHARACTERS; i++){
+   if (root->children[i]) 
+    return false;
+   }
+   return true;
+}
+
+Node* Delete(Node* root, string key, int depth = 0) {
+   if (!root) return NULL;
+   if (depth == key.size()) {
+      if (root->isEnd)
+         root->isEnd = false;
+      if (isEmpty(root)) {
+         delete (root);
+         root = NULL;
+      }
+   return root;
+   }
+
+   int index = key[depth] - 'A';
+   root->children[index] =
+   Delete(root->children[index], key, depth + 1);
+   if (isEmpty(root) && root->isEnd == false) {
+      delete (root);
+      root = NULL;
+   }
+   return root;
+}
+
 
